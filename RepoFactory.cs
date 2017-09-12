@@ -29,6 +29,10 @@ namespace EFGenericRepository
         {
             lock (lockObject)
             {
+                if (repositoryContainer == null)
+                {
+                    return;
+                }
                 foreach (var item in repositoryContainer)
                 {
                     if (item.Value.GetType().IsAssignableFrom(typeof(IDisposable)))
@@ -46,6 +50,10 @@ namespace EFGenericRepository
         {
             lock (lockObject)
             {
+                if (repositoryContainer == null)
+                {
+                    repositoryContainer = new Dictionary<string, object>();
+                }
                 if (!repositoryContainer.ContainsKey(typeof(T).Name))
                 {
                     repositoryContainer.Add(typeof(T).Name, CreateRepository<T>());
